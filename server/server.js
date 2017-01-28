@@ -20,17 +20,13 @@ io.on('connection', (socket) => {
 	// socket emits a message to a single connection
 	socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
 
-	socket.on('createMessage', (message) => {
+	socket.on('createMessage', (message, callback) => {
 		console.log('Create Message:', message);
 		// to every 
 		io.emit('newMessage', generateMessage(message.from, message.text));
+		callback('This is from the server');
 
-	// to every connection except the socket
-	socket.broadcast.emit('newMessage', {
-		from: message.from,
-		text: message.text,
-		createdAt: new Date().getTime()
-	})
+
 
 	});
 	socket.on('disconnect', () => {
