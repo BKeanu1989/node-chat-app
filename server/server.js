@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
 		text: 'Hey whazzup',
 		createdAt: 123
 	});
-
+	// socket emits a message to a single connection
 	socket.emit('newMessage', {
 		from: 'Test',
 		text: 'see this test',
@@ -29,6 +29,12 @@ io.on('connection', (socket) => {
 
 	socket.on('createMessage', (message) => {
 		console.log('Create Message:', message);
+		// to every 
+		io.emit('newMessage', {
+			from: message.from,
+			text: message.text,
+			createdAt: new Date().getTime()
+		});
 	});
 	socket.on('disconnect', () => {
 		console.log('User was disconnected');
