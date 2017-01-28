@@ -15,17 +15,17 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
 	console.log('new user connected');
 
-	socket.emit('newEmail', {
-		from: 'mike@example.com',
-		text: 'Hey whazzup',
-		createdAt: 123
+	socket.broadcast.emit('newMessage', {
+		from: 'Admin',
+		text: 'New User joined',
+		createdAt: new Date().getTime()
 	});
 	// socket emits a message to a single connection
 	socket.emit('newMessage', {
-		from: 'Test',
-		text: 'see this test',
-		createdAt: 12343
-	})
+		from: 'Admin',
+		text: 'Welcome to the chat app',
+		createdAt: new Date().getTime()
+	});
 
 	socket.on('createMessage', (message) => {
 		console.log('Create Message:', message);
@@ -35,6 +35,14 @@ io.on('connection', (socket) => {
 			text: message.text,
 			createdAt: new Date().getTime()
 		});
+
+	// to every connection except the socket
+	socket.broadcast.emit('newMessage', {
+		from: message.from,
+		text: message.text,
+		createdAt: new Date().getTime()
+	})
+
 	});
 	socket.on('disconnect', () => {
 		console.log('User was disconnected');
