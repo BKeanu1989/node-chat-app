@@ -134,9 +134,9 @@ button:disabled {
   /*height: 60px;*/
   flex-shrink: 0;
   /* edit */ 
-  bottom: 0;
-  position: absolute;
-  width: calc(100% - 260px);
+  // bottom: 0;
+  // position: relative;
+  // width: calc(100% - 260px);
 
 }
 
